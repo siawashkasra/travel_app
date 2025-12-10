@@ -5,9 +5,21 @@ import { Button } from "@/components/Button";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const handleNavClick = (href: string) => {
+    // Close mobile menu after clicking
+    setIsMenuOpen(false);
+
+    // If it's an anchor link and we're not on home page, navigate to home first
+    if (href.startsWith("#") && pathname !== "/") {
+      window.location.href = "/" + href;
+    }
+  };
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-sm border-b border-gray-200/50 shadow-sm">
@@ -30,13 +42,14 @@ export const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-1">
             {NAV_LINKS.map((link, index) => (
-              <Link
+              <a
                 key={index}
                 href={link.href}
-                className="px-4 py-2 text-gray-700 font-medium text-sm hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300"
+                onClick={() => handleNavClick(link.href)}
+                className="px-4 py-2 text-gray-700 font-medium text-sm hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300 cursor-pointer"
               >
                 {link.label}
-              </Link>
+              </a>
             ))}
           </div>
 
@@ -76,13 +89,13 @@ export const Navbar = () => {
             <ul className="flex flex-col gap-1 mb-6">
               {NAV_LINKS.map((link, index) => (
                 <li key={index}>
-                  <Link
+                  <a
                     href={link.href}
-                    className="block px-4 py-3 text-gray-700 font-medium text-sm hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300"
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={() => handleNavClick(link.href)}
+                    className="block px-4 py-3 text-gray-700 font-medium text-sm hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300 cursor-pointer"
                   >
                     {link.label}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>

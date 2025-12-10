@@ -156,8 +156,10 @@ const ContactUs = () => {
                       Office
                     </h3>
                     <p className="text-gray-600">
-                      123 Adventure Street<br />
-                      San Francisco, CA 94102<br />
+                      123 Adventure Street
+                      <br />
+                      San Francisco, CA 94102
+                      <br />
                       United States
                     </p>
                   </div>
